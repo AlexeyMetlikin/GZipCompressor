@@ -15,3 +15,12 @@ C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor\obj\Release\Compre
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor\obj\Release\Compressor.csproj.CopyComplete
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor\obj\Release\GZipTest.exe
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor\obj\Release\GZipTest.pdb
+C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor\obj\Release\Compressor.csprojAssemblyReference.cache
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\bin\Release\GZipTest.exe.config
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\bin\Release\GZipTest.exe
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\bin\Release\GZipTest.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\bin\Release\System.ComponentModel.Annotations.dll
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\Compressor.csproj.CoreCompileInputs.cache
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\Compressor.csproj.CopyComplete
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\GZipTest.exe
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\GZipTest.pdb

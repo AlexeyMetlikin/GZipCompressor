@@ -20,13 +20,13 @@ namespace Compressor
         private readonly AutoResetEvent _autoResetEvent;
         private readonly Queue<Tuple<int, byte[]>> _chunksQueue;
         private readonly object _locker = new object();
-
+        private readonly ulong _maxChunksCount;
         private bool _hasFileRead;
 
         public GZipCompressor()
         {
-            _chunksQueue = new Queue<Tuple<int, byte[]>>(Convert.ToInt32(
-                new ComputerInfo().AvailablePhysicalMemory * 0.8 / ChunkSize));
+            _maxChunksCount = (ulong)(new ComputerInfo().TotalPhysicalMemory / (double) ChunkSize * 0.9);
+            _chunksQueue = new Queue<Tuple<int, byte[]>>();
             _autoResetEvent = new AutoResetEvent(true);
         }
 
@@ -48,11 +48,97 @@ namespace Compressor
             return 0;
         }
 
-        private static void CreateOutputFileDirectoryIfNotExists(ParamsModel paramsModel)
+        private void ReadFileToMemory(object threadContext)
+        {
+            var paramsModel = (ParamsModel)threadContext;
+            var stream = paramsModel.CompressionMode == CompressionMode.Decompress
+                ? (Stream)new GZipStream(new FileStream(paramsModel.InputFileName, FileMode.Open, FileAccess.Read),
+                    CompressionMode.Decompress)
+                : new FileStream(paramsModel.InputFileName, FileMode.Open, FileAccess.Read);
+
+            var readingThreads = new List<Thread>();
+            using (stream)
+            {
+                for (var i = 0; i < Environment.ProcessorCount; i++)
+                {
+                    var readingThread = new Thread(ReadFileInOneThread) { IsBackground = true };
+                    readingThread.Start(stream);
+                    readingThreads.Add(readingThread);
+                }
+
+                readingThreads.ForEach(thread => thread.Join());
+            }
+
+            _hasFileRead = true;
+        }
+
+        private void ProcessFile(object threadContext)
+        {
+            var paramsModel = (ParamsModel)threadContext;
+            var stream = paramsModel.CompressionMode != CompressionMode.Compress
+                ? new FileStream(paramsModel.OutputFileName, FileMode.Create, FileAccess.Write)
+                : (Stream)new GZipStream(new FileStream(paramsModel.OutputFileName, FileMode.Create, FileAccess.Write),
+                    CompressionMode.Compress);
+
+            CreateOutputFileDirectoryIfNotExists(paramsModel);
+            using (stream)
+            {
+                while (true)
+                {
+                    var dataChunk = DequeueChunk();
+                    if (dataChunk == null)
+                    {
+                        if (_hasFileRead)
+                            break;
+
+                        continue;
+                    }
+
+                    stream.Write(dataChunk.Item2, 0, dataChunk.Item1);
+                }
+            }
+        }
+
+        private void ReadFileInOneThread(object threadContext)
+        {
+            var stream = (Stream)threadContext;
+            while (true)
+            {
+                _autoResetEvent.WaitOne();
+                var buffer = new byte[ChunkSize];
+                var bytesCount = stream.Read(buffer, 0, buffer.Length);
+                if (bytesCount == 0)
+                    break;
+
+                EnqueueChunk(new Tuple<int, byte[]>(bytesCount, buffer));
+                _autoResetEvent.Set();
+            }
+
+            _autoResetEvent.Set();
+        }
+
+        private void CreateOutputFileDirectoryIfNotExists(ParamsModel paramsModel)
         {
             var directoryName = Path.GetDirectoryName(paramsModel.OutputFileName);
             if (!Directory.Exists(directoryName))
                 Directory.CreateDirectory(directoryName ?? throw new ArgumentNullException(DirectoryCreationError));
+        }
+
+        private void EnqueueChunk(Tuple<int, byte[]> dataPair)
+        {
+            try
+            {
+                while ((ulong)_chunksQueue.Count >= _maxChunksCount)
+                {
+                }
+
+                Monitor.Enter(_locker);
+                _chunksQueue.Enqueue(dataPair);
+            }
+            finally
+            {
+                Monitor.Exit(_locker);
+            }
         }
 
         private Tuple<int, byte[]> DequeueChunk()
@@ -65,76 +151,6 @@ namespace Compressor
             finally
             {
                 Monitor.Exit(_locker);
-            }
-        }
-
-        private void EnqueueChunk(Tuple<int, byte[]> dataPair)
-        {
-            try
-            {
-                Monitor.Enter(_locker);
-                _chunksQueue.Enqueue(dataPair);
-            }
-            finally
-            {
-                Monitor.Exit(_locker);
-            }
-        }
-
-        private void ProcessFile(object threadContext)
-        {
-            var paramsModel = (ParamsModel) threadContext;
-            var stream = paramsModel.CompressionMode != CompressionMode.Compress
-                ? new FileStream(paramsModel.OutputFileName, FileMode.Create, FileAccess.Write)
-                : (Stream) new GZipStream(new FileStream(paramsModel.OutputFileName, FileMode.Create, FileAccess.Write),
-                    CompressionMode.Compress);
-
-            CreateOutputFileDirectoryIfNotExists(paramsModel);
-
-            using (stream)
-            {
-                while (true)
-                {
-                    _autoResetEvent.WaitOne();
-                    var dataChunk = DequeueChunk();
-                    if (dataChunk == null)
-                    {
-                        if (_hasFileRead)
-                            break;
-
-                        _autoResetEvent.Set();
-                        continue;
-                    }
-
-                    stream.Write(dataChunk.Item2, 0, dataChunk.Item1);
-                    _autoResetEvent.Set();
-                }
-            }
-
-            _autoResetEvent.Set();
-        }
-
-        private void ReadFileToMemory(object threadContext)
-        {
-            var paramsModel = (ParamsModel) threadContext;
-            var stream = paramsModel.CompressionMode == CompressionMode.Decompress
-                ? (Stream) new GZipStream(new FileStream(paramsModel.InputFileName, FileMode.Open, FileAccess.Read),
-                    CompressionMode.Decompress)
-                : new FileStream(paramsModel.InputFileName, FileMode.Open, FileAccess.Read);
-
-            using (stream)
-            {
-                var buffer = new byte[ChunkSize];
-                int bytesCount;
-                while ((bytesCount = stream.Read(buffer, 0, buffer.Length)) != 0)
-                {
-                    _autoResetEvent.WaitOne();
-                    EnqueueChunk(new Tuple<int, byte[]>(bytesCount, buffer));
-                    buffer = new byte[ChunkSize];
-                    _autoResetEvent.Set();
-                }
-
-                _hasFileRead = true;
             }
         }
     }

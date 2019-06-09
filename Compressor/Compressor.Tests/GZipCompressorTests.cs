@@ -14,8 +14,8 @@ namespace Compressor.Tests
         {
             // Arrange
             var inputFile = FileHelper.GetFullPathByFileName(fileName);
-            var outputFile = FileHelper.GetFullPathByFileName($"{fileName}.gz");
-            var decompressFile = FileHelper.GetFullPathByFileName($"decompress_{fileName}");
+            var outputFile = $"{inputFile}.gz";
+            var decompressFile = $"{inputFile}_decompressed{Path.GetExtension(inputFile)}";
             var gZipCompressor = new GZipCompressor();
 
             // Act

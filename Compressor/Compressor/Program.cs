@@ -20,8 +20,7 @@ namespace Compressor
             }
             catch (Exception e)
             {
-                Console.WriteLine();
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"\n{e.Message}");
                 return 1;
             }
         }

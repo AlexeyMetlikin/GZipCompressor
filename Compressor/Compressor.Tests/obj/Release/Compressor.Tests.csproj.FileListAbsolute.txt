@@ -33,3 +33,17 @@ C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor.Tests\obj\Release\
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.csproj.CopyComplete
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.dll
 C:\Users\metlikin\source\repos\GZipTest\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\Compressor.Tests.dll
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\Compressor.Tests.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\GZipTest.exe
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\nunit.framework.dll
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\System.ComponentModel.Annotations.dll
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\GZipTest.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\GZipTest.exe.config
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\nunit.framework.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\bin\Release\nunit.framework.xml
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.csprojAssemblyReference.cache
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.csproj.CoreCompileInputs.cache
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.csproj.CopyComplete
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.dll
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor.Tests\obj\Release\Compressor.Tests.pdb

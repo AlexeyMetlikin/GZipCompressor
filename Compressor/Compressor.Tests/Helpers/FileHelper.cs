@@ -10,6 +10,9 @@ namespace Compressor.Tests.Helpers
 
         public static string GetFullPathByFileName(string fileName)
         {
+            if (File.Exists(fileName))
+                return fileName;
+
             var baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (!Directory.Exists(baseDirectory))
                 return null;
