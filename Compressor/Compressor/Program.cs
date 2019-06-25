@@ -7,6 +7,16 @@ namespace Compressor
 {
     internal class Program
     {
+        private static ParamsModel GetParamsModel(string[] args)
+        {
+            var paramsModel = new ParamsModel(args);
+            var validationResult = paramsModel.ValidateModel();
+            if (!validationResult.IsValid)
+                throw new Exception(string.Join("\n", validationResult.ErrorMessages));
+
+            return paramsModel;
+        }
+
         private static int Main(string[] args)
         {
             try
@@ -23,16 +33,6 @@ namespace Compressor
                 Console.WriteLine($"\n{e.Message}");
                 return 1;
             }
-        }
-
-        private static ParamsModel GetParamsModel(string[] args)
-        {
-            var paramsModel = new ParamsModel(args);
-            var validationResult = paramsModel.ValidateModel();
-            if (!validationResult.IsValid)
-                throw new Exception(string.Join("\n", validationResult.ErrorMessages));
-
-            return paramsModel;
         }
     }
 }

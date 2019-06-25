@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AttributesTests\IsFileExistsAttributeTests.cs" />
     <Compile Include="AttributesTests\IsLessThanMaxAllowedFileNameLengthAttributeTests.cs" />
+    <Compile Include="ExtensionsTests\DictionaryExtensionsTests.cs" />
     <Compile Include="ExtensionsTests\ParamsModelValidationExtensionsTests.cs" />
     <Compile Include="ExtensionsTests\StringExtensionsTests.cs" />
     <Compile Include="Helpers\FileHelper.cs" />

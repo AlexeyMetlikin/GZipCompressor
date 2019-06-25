@@ -24,3 +24,4 @@ C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\Com
 C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\Compressor.csproj.CopyComplete
 C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\GZipTest.exe
 C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\GZipTest.pdb
+C:\Users\metlikin\Documents\GZipCompressor\Compressor\Compressor\obj\Release\Compressor.csprojAssemblyReference.cache

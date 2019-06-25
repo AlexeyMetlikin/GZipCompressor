@@ -10,23 +10,24 @@ namespace Compressor.Tests
     {
         [Test]
         [TestCase("song.mp3")]
+        [TestCase(@"C:\Users\metlikin\Downloads\Test\test.txt")]
+        [TestCase(@"C:\Users\metlikin\Downloads\Test\ubuntu-18.04.1-desktop-amd64.iso")]
         public void CompressAndDecompressFile_WithExistFile_FilesAreSame(string fileName)
         {
             // Arrange
             var inputFile = FileHelper.GetFullPathByFileName(fileName);
             var outputFile = $"{inputFile}.gz";
             var decompressFile = $"{inputFile}_decompressed{Path.GetExtension(inputFile)}";
-            var gZipCompressor = new GZipCompressor();
 
             // Act
-            gZipCompressor.ProcessFileAccordingToCompressionMode(new ParamsModel
+            new GZipCompressor().ProcessFileAccordingToCompressionMode(new ParamsModel
             {
                 CompressionMode = CompressionMode.Compress,
                 InputFileName = inputFile,
                 OutputFileName = outputFile
             });
 
-            gZipCompressor.ProcessFileAccordingToCompressionMode(new ParamsModel
+            new GZipCompressor().ProcessFileAccordingToCompressionMode(new ParamsModel
             {
                 CompressionMode = CompressionMode.Decompress,
                 InputFileName = outputFile,
